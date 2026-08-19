@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: mdianmareyah/frontend:v0
+          image: mdianmareyah/frontend:d7491079d9bfc3c5313397108b50d8ca18724160
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
