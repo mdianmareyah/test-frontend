@@ -26,7 +26,7 @@ jobs:
       - name: Build and push l'image
         uses: docker/build-push-action@v6
         with:
-          context: frontend-test
+          context: .
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }}
@@ -38,13 +38,13 @@ jobs:
       - name: Mettre à jour le tag d'image dans le manifeste
         run: |
           sed -i "s|image: .*/frontend:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }}|" \
-            k8s/frontend/deployment.yaml
+            deployment.yaml
  
       - name: Commit et push le manifeste
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add k8s/frontend/deployment.yaml
+          git add deployment.yaml
           git diff --staged --quiet && echo "Rien à committer" && exit 0
           git commit -m "ci: déploiement frontend ${{ github.sha }}"
           git push
